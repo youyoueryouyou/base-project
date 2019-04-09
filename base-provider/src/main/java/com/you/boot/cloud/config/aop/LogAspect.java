@@ -19,8 +19,8 @@ import java.util.Map;
 /**
  * @author shicz
  */
-@Aspect
-@Component
+//@Aspect
+//@Component
 public class LogAspect {
     Logger logger = LoggerFactory.getLogger(LogAspect.class);
 

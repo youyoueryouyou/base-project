@@ -13,11 +13,11 @@ public class ServerListener implements ServletContextListener {
     Logger logger = LoggerFactory.getLogger(ServerListener.class);
     @Override
     public void contextInitialized(ServletContextEvent sce) {
-        logger.debug("contextInitialized...");
+        logger.debug("contextInitialized ...");
     }
 
     @Override
     public void contextDestroyed(ServletContextEvent sce) {
-
+        logger.debug("contextDestroyed ...");
     }
 }

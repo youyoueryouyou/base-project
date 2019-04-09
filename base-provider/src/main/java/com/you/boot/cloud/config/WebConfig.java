@@ -37,8 +37,34 @@ import java.util.*;
     private DataSourceTransactionManager transactionManager;
 
     @Override
+    public void addCorsMappings(CorsRegistry registry) {
+        //registry.addMapping("/**").allowedOrigins("http://localhost:8080").allowedMethods("POST", "GET").allowCredentials(true);
+    }
+
+    @Override
     public void addInterceptors(InterceptorRegistry registry) {
-//        registry.addInterceptor(new TestInterceptor());
+        //registry.addInterceptor(new TestInterceptor());
+    }
+
+    //@Bean
+    public FilterRegistrationBean xssFilter() {
+        FilterRegistrationBean registrationBean = new FilterRegistrationBean();
+        XssFilter xssFilter = new XssFilter();
+        registrationBean.setFilter(xssFilter);
+        List<String> urls = new ArrayList<>();
+        urls.add("/*");
+        registrationBean.setUrlPatterns(urls);
+        return registrationBean;
+    }
+
+    //@Bean
+    public ServletListenerRegistrationBean<ServerListener> serverListenerBean() {
+        return new ServletListenerRegistrationBean<ServerListener>(new ServerListener());
+    }
+
+    //@Bean
+    public ServletRegistrationBean kaptchaServletBean() {
+        return new ServletRegistrationBean(new KaptchaServlet(),"/kaptcha");
     }
 
     @Bean
@@ -53,15 +79,7 @@ import java.util.*;
         fastJsonHttpMessageConverter.setFastJsonConfig(fastJsonConfig);
         fastJsonHttpMessageConverter.setSupportedMediaTypes(fastMediaTypes);
         HttpMessageConverter converter = fastJsonHttpMessageConverter;
-         return new HttpMessageConverters(converter);
-    }
-
-
-    /**
-     * //@Bean
-     * */
-    public ServletRegistrationBean kaptchaServletBean() {
-        return new ServletRegistrationBean(new KaptchaServlet(),"/kaptcha");
+        return new HttpMessageConverters(converter);
     }
 
     @Bean
@@ -75,23 +93,6 @@ import java.util.*;
         return registrationBean;
     }
 
-    @Bean
-    public FilterRegistrationBean xssFilter() {
-        FilterRegistrationBean registrationBean = new FilterRegistrationBean();
-        XssFilter xssFilter = new XssFilter();
-        registrationBean.setFilter(xssFilter);
-        List<String> urls = new ArrayList<>();
-        urls.add("/*");
-        registrationBean.setUrlPatterns(urls);
-        return registrationBean;
-    }
-
-    /**
-     * //@Bean
-     * */
-    public ServletListenerRegistrationBean<ServerListener> serverListenerBean() {
-        return new ServletListenerRegistrationBean<ServerListener>(new ServerListener());
-    }
 
     @Bean
     public ServletRegistrationBean dispatcherRegistration(DispatcherServlet dispatcherServlet) {
@@ -99,11 +100,6 @@ import java.util.*;
                 dispatcherServlet);
         dispatcherServlet.setThrowExceptionIfNoHandlerFound(true);
         return registration;
-    }
-
-    @Override
-    public void addCorsMappings(CorsRegistry registry) {
-        //registry.addMapping("/**").allowedOrigins("http://localhost:8080").allowedMethods("POST", "GET").allowCredentials(true);
     }
 
 
