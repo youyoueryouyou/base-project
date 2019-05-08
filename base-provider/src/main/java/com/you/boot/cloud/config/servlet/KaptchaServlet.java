@@ -60,7 +60,7 @@ public class KaptchaServlet extends HttpServlet {
         String code = Base64.encode(lineCaptcha.getCode());
         String image = lineCaptcha.getImageBase64();
         Map<String,String> map = new HashMap<String,String>(16);
-        map.put("code",code);
+        map.put("random",code);
         map.put("image",image);
         BaseResponse baseResponse =  BaseResponse.successResult(map);
         PrintWriter out = response.getWriter();
