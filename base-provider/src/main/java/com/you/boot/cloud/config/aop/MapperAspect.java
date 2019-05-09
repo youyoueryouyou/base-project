@@ -63,7 +63,6 @@ public class MapperAspect {
                     }
                 }
             }
-            return null;
         }
         return object;
     }
